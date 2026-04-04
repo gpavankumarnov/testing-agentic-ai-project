@@ -1,2 +1,10 @@
-# testing-agentic-ai-project
-this project is for testing of agentic ai project
+# Testing Agentic AI Project
+
+## Description
+Auto-generated README.
+
+## Installation
+pip install -r requirements.txt
+
+## Usage
+python app.py
