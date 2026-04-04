@@ -13,7 +13,6 @@ def get_requirements():
 def get_project_structure():
     structure = []
     for root, dirs, files in os.walk("."):
-        # skip .git and workflows
         if ".git" in root or ".github" in root:
             continue
         level = root.replace(".", "").count(os.sep)
@@ -31,16 +30,46 @@ def generate_readme():
     content = f"""
 # Testing Agentic AI Project
 
-## 📌 Description
-This project demonstrates an **agentic AI workflow** that interacts with GitHub repositories,
-analyzes issues, and automates fixes.
+## Description
+Auto-generated README for your agentic AI system.
 
-## 🚀 Features
+## Features
 - Multi-agent workflow
-- GitHub issue analysis
-- Automated PR creation
-- Vector DB integration (ChromaDB)
+- GitHub issue fixing
+- PR automation
 
-## 📂 Project Structure
-``` id="w6ah4p"
+## Project Structure
+
 {structure}
+
+## Installation
+
+pip install -r requirements.txt
+
+## Dependencies
+
+{requirements}
+
+## Usage
+
+python app.py
+
+## Automation
+This README is auto-generated via GitHub Actions.
+"""
+
+    # Avoid unnecessary commits
+    if os.path.exists("README.md"):
+        with open("README.md", "r", encoding="utf-8") as f:
+            old = f.read()
+        if old.strip() == content.strip():
+            print("No changes in README")
+            return
+
+    with open("README.md", "w", encoding="utf-8") as f:
+        f.write(content)
+
+    print("README updated!")
+
+if __name__ == "__main__":
+    generate_readme()
