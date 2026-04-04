@@ -1,18 +1,29 @@
-import os
+name: Auto Generate README
 
-def get_requirements():
-    if os.path.exists("requirements.txt"):
-        with open("requirements.txt") as f:
-            return f.read()
-    return "No dependencies listed"
+on:
+  push:
+    branches: [main]
 
-def generate_readme():
-    content = f"""
-# Project Title
+jobs:
+  generate-readme:
+    runs-on: ubuntu-latest
 
-## Description
-Auto-generated README
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-## Installation
-```bash
-pip install -r requirements.txt
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Run README generator
+        run: python generate_readme.py
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "bot"
+          git config --global user.email "bot@example.com"
+          git add README.md
+          git diff --cached --quiet || git commit -m "Auto update README"
+          git push
