@@ -1,35 +1,22 @@
-name: Auto Generate README
+import os
 
-on:
-  push:
-    branches: [main]
+def generate_readme():
+    content = """# Testing Agentic AI Project
 
-permissions:
-  contents: write   # ✅ THIS FIXES YOUR ERROR
+## Description
+Auto-generated README.
 
-jobs:
-  generate-readme:
-    runs-on: ubuntu-latest
+## Installation
+pip install -r requirements.txt
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+## Usage
+python app.py
+"""
 
-      - name: Debug repo structure
-        run: ls -R
+    with open("README.md", "w") as f:
+        f.write(content)
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
+    print("README updated!")
 
-      - name: Run README generator
-        run: python generate_readme.py
-
-      - name: Commit changes
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions@github.com"
-          git add README.md
-          git diff --cached --quiet || git commit -m "Auto update README"
-          git push
+if __name__ == "__main__":
+    generate_readme()
