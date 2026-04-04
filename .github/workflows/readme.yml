@@ -1,24 +1,18 @@
-name: Update README
+import os
 
-on:
-  push:
-    branches: [main]
+def get_requirements():
+    if os.path.exists("requirements.txt"):
+        with open("requirements.txt") as f:
+            return f.read()
+    return "No dependencies listed"
 
-jobs:
-  update-readme:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+def generate_readme():
+    content = f"""
+# Project Title
 
-      - name: Generate README
-        run: |
-          npm install -g update-readme
-          update-readme
+## Description
+Auto-generated README
 
-      - name: Commit changes
-        run: |
-          git config --global user.name "bot"
-          git config --global user.email "bot@example.com"
-          git add README.md
-          git commit -m "Auto update README"
-          git push
+## Installation
+```bash
+pip install -r requirements.txt
