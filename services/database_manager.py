@@ -5,6 +5,7 @@ from typing import List, Dict, Optional
 class DatabaseManager:
     def __init__(self, db_path: str):
         self.db_path = db_path
+        # BUG3: Connection not established before using it
         self.connection = None
 
     def connect(self):
@@ -13,6 +14,10 @@ class DatabaseManager:
         return self.connection
 
     def create_users_table(self):
+        """
+        Issue: When self.connection is None (not established),
+        calling .cursor() on None raises AttributeError
+        """
         cursor = self.connection.cursor()
         cursor.execute(
             """

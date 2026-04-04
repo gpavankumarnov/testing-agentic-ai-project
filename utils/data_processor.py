@@ -48,4 +48,11 @@ class DataProcessor:
             total += user["age"]
 
         # BUG2: Division by zero if no data
+        """
+        When it fails (empty data):
+            self.data = []  # No users added
+            total = 0  (loop doesn't run)
+            len(self.data) = 0
+            return 0 / 0  # ❌ ZeroDivisionError
+        """
         return total / len(self.data)
